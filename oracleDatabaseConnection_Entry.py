@@ -1,6 +1,5 @@
 import cx_Oracle
 import random as r
-import datetime as dt
 
 
 class Essentials:
