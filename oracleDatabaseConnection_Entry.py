@@ -1,5 +1,6 @@
 import cx_Oracle
 import random as r
+import dataset_utils
 
 
 class Essentials:
@@ -39,7 +40,6 @@ class Essentials:
             'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
         ]
 
-
     def initialize(self):
         username = input('Enter the Username : ').strip()
         password = input('Enter the Password : ').strip()
@@ -54,11 +54,20 @@ class Essentials:
         date = str(day)+'-'+month+'-'+str(year)
         return date
 
-    def gen_string(self, length):
-        name = r.choice(self.cap_char_bank)
-        length -= 1
-        for i in range(length):
-            name = name + r.choice(self.small_char_bank)
+    def gen_string(self, length=0, first_names=[], last_names=[], mid_names=[]):
+        name = None
+        if first_names == [] and last_names == []:
+            name = r.choice(self.cap_char_bank)
+            length -= 1
+            for i in range(length):
+                name = name + r.choice(self.small_char_bank)
+        elif first_names != [] and last_names != []:
+            mid = ''
+            if mid_names != []:
+                mid = r.choice(mid_names) + ' '
+            name = r.choice(first_names) + ' ' + mid + r.choice(last_names)
+
+
         return name
 
 if __name__ == '__main__':
