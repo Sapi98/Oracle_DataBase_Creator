@@ -2,7 +2,8 @@ from openpyxl import load_workbook
 import os
 
 
-class Create:
+class CreateDataset:
+
     def __init__(self):
         cd = os.getcwd()
         self.path1 = cd + '/Indian_first_names.xlsx'

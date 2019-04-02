@@ -1,14 +1,47 @@
 import cx_Oracle
 import random as r
-import dataset_utils
+from dataset_utils import *
 
 
 class Essentials:
 
-    cap_char_bank = [chr(i) for i in range(65, 91)]
-    small_char_bank = [chr(i) for i in range(97, 123)]
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def gen_date(self, x):
+        day = r.randint(1, 28)
+        month = r.choice(x.months)
+        year = r.randint(1950, 2019)
+        date = str(day)+'-'+month+'-'+str(year)
+        return date
+
+    @staticmethod
+    def gen_string(self, x, length=0, first_names=[], last_names=[], mid_names=[]):
+        name = None
+        if first_names == [] and last_names == []:
+            name = r.choice(x.cap_char_bank)
+            length -= 1
+            for i in range(length):
+                name = name + r.choice(x.small_char_bank)
+        elif first_names != [] and last_names != []:
+            mid = ''
+            if mid_names != []:
+                mid = r.choice(mid_names) + ' '
+            name = r.choice(first_names) + ' ' + mid + r.choice(last_names)
+
+        return name
+
+
+class Control(Essentials, CreateDataset):
 
     def __init__(self):
+        Essentials.__init__()
+        CreateDataset.__init__()
+
+        self.cap_char_bank = [chr(i) for i in range(65, 91)]
+        self.small_char_bank = [chr(i) for i in range(97, 123)]
+
         chances = 3
         self.cursor = None
         self.conn = None
@@ -17,6 +50,7 @@ class Essentials:
             try:
                 self.initialize()
                 break
+
             except:
                 print('!!!You have entered wrong Username or Password!!!')
                 chances -= 1
@@ -44,31 +78,15 @@ class Essentials:
         username = input('Enter the Username : ').strip()
         password = input('Enter the Password : ').strip()
         connect_query = '{0}/{1}@{2}'.format(username, password, 'orcl')
-        self.conn = cx_Oracle.connect(connect_query)
+        try:
+            self.conn = cx_Oracle.connect(connect_query)
+        except:
+            print('Wrong, username / password')
+            return 0
         self.cursor = self.conn.cursor()
-
-    def gen_date(self):
-        day = r.randint(1, 28)
-        month = r.choice(self.months)
-        year = r.randint(1950, 2019)
-        date = str(day)+'-'+month+'-'+str(year)
-        return date
-
-    def gen_string(self, length=0, first_names=[], last_names=[], mid_names=[]):
-        name = None
-        if first_names == [] and last_names == []:
-            name = r.choice(self.cap_char_bank)
-            length -= 1
-            for i in range(length):
-                name = name + r.choice(self.small_char_bank)
-        elif first_names != [] and last_names != []:
-            mid = ''
-            if mid_names != []:
-                mid = r.choice(mid_names) + ' '
-            name = r.choice(first_names) + ' ' + mid + r.choice(last_names)
+        return 1
 
 
-        return name
 
 if __name__ == '__main__':
     e = Essentials()
