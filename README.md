@@ -1,1 +1,1 @@
-# Sapi-proj
+# Oracle Database Entries Automation Code
