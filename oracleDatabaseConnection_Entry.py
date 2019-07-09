@@ -22,7 +22,7 @@ class Essentials:
         if first_names == [] and last_names == []:
             name = r.choice(x.cap_char_bank)
             length -= 1
-            for i in range(length):
+            for _ in range(length):
                 name = name + r.choice(x.small_char_bank)
         elif first_names != [] and last_names != []:
             mid = ''
